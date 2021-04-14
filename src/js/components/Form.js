@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { addArticle } from "../actions/index";
+import { addArticle, removeArticle } from "../actions/index";
 
 function mapDispatchToProps(dispatch) {
     return {
-      addArticle: article => dispatch(addArticle(article))
+      addArticle: article => dispatch(addArticle(article)),
+      removeArticle: () => dispatch(removeArticle())
     };
   }
 
@@ -31,21 +32,25 @@ function mapDispatchToProps(dispatch) {
       // or slightly longer this.props.addArticle( { title : title } ); 
       this.setState({ title: "" });
     }
+    
     render() {
       const { title } = this.state;
       return (
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <label htmlFor="title">Title</label>
-            <input
-              type="text"
-              id="title"
-              value={title}
-              onChange={this.handleChange}
-            />
-          </div>
-          <button type="submit">SAVE</button>
-        </form>
+        <>
+          <form onSubmit={this.handleSubmit}>
+            <div>
+              <label htmlFor="title">Title</label>
+              <input
+                type="text"
+                id="title"
+                value={title}
+                onChange={this.handleChange}
+              />
+            </div>
+            <button type="submit">SAVE</button>
+          </form>
+          <button onClick={()=>this.props.removeArticle()} type="submit">Remove last item</button>
+          </>
       );
     }
   }
